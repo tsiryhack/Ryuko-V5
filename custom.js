@@ -9,11 +9,11 @@ module.exports = async ({ api, event }) => {
     },
     greetings: {
       status: true,
-      morning: `goodmorning everyone, have a nice day.`,
-      afternoon: `goodafternoon everyone, don't forget to eat your lunch.`,
-      evening: `goodevening everyone, don't forget to eat.`,
-      sleep: `goodnight everyone, time to sleep.`,
-      note: 'greetings every morning, afternoon and evening. the timezone is located in Asia/Manila'
+      morning: `Bonjour tout le monde ! Passez une excellente journée. ☀️`,
+      afternoon: `Bon après-midi à tous, n'oubliez pas de déjeuner ! 🍽️`,
+      evening: `Bonsoir tout le monde, j'espère que vous avez passé une bonne journée. 🌆`,
+      sleep: `Bonne nuit tout le monde, il est temps de se reposer. 🌙`,
+      note: 'Salutations automatiques calées sur l timezone de Madagascar (Antananarivo)'
     },
     accpetPending: {
       status: false,
@@ -35,43 +35,57 @@ module.exports = async ({ api, event }) => {
       }
     }
   }
+  
   async function greetings(config) {
     if (config.status) {
       try {
-      const nam = [
-        {
-          timer: '5:00:00 AM',
-          message: [`${config.morning}`]
-        },
-        {
-          timer: '11:00:00 AM',
-          message: [`${config.afternoon}`]
-        },
-        {
-          timer: '6:00:00 PM',
-          message: [`${config.evening}`]
-        },
-        {
-          timer: '10:00:00 PM',
-          message: [`${config.sleep}`]
-        }
-      ];
-      const userID = await api.getCurrentUserID();
+        const nam = [
+          {
+            timer: '05:00:00',
+            message: [`${config.morning}`]
+          },
+          {
+            timer: '12:00:00',
+            message: [`${config.afternoon}`]
+          },
+          {
+            timer: '18:00:00',
+            message: [`${config.evening}`]
+          },
+          {
+            timer: '22:00:00',
+            message: [`${config.sleep}`]
+          }
+        ];
+        const userID = await api.getCurrentUserID();
+        
         setInterval(() => {
-const r = a => a[Math.floor(Math.random()*a.length)];
-if (á = nam.find(i => i.timer == new Date(Date.now()+25200000).toLocaleString().split(/,/).pop().trim())) {
-    const allThread = global.data.allThreadID.get(userID);
-    allThread.forEach(i => {
-        api.sendMessage(r(á.message), i);
-       });
-      }
-}, 1000);
+          const r = a => a[Math.floor(Math.random()*a.length)];
+          
+          // Récupération de l'heure exacte de Madagascar au format HH:MM:SS
+          const currentTimeMada = new Date().toLocaleTimeString('fr-FR', {
+            timeZone: 'Indian/Antananarivo',
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+
+          const á = nam.find(i => i.timer === currentTimeMada);
+          if (á) {
+            const allThread = global.data.allThreadID.get(userID);
+            if (allThread) {
+              allThread.forEach(i => {
+                api.sendMessage(r(á.message), i);
+              });
+            }
+          }
+        }, 1000);
       } catch (error) {
         logger(`having some unexpected error in greetings : ${error}`, 'error')
       }
     }
   }
-  
   
   function accpetPending(config) {
     if(config.status) {
@@ -87,7 +101,7 @@ if (á = nam.find(i => i.timer == new Date(Date.now()+25200000).toLocaleString()
     }
   }
 
-autosetbio(configCustom.autosetbio)
-greetings(configCustom.greetings)
-accpetPending(configCustom.accpetPending)
+  autosetbio(configCustom.autosetbio)
+  greetings(configCustom.greetings)
+  accpetPending(configCustom.accpetPending)
 };
