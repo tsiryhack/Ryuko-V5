@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "botName": "Noire",
+    "prefix": "!",
+    "admins": ["61578979567379"],
+    "appState": "fbstate.json"
+  }
+]
