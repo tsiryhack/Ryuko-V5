@@ -4,12 +4,12 @@
   "allowinbox": false,
   "adminonly": false,
   "autocreatedb": true,
-  "approval": false,
+  "approval": true,
   "premium": false,
   "autopost": true,
-  "email": "sanjivfresh@gmail.com",
+  "email": "tsilananisana@gmail.com",
   "operators": [
-    "100091459940475"
+    "61578979567379"
   ],
   "autorestart": {
     "status": false,
